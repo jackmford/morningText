@@ -2,6 +2,7 @@ from __future__ import print_function
 import datetime
 import pickle
 import os.path
+from twilio.rest import Client
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -42,6 +43,8 @@ def main():
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
+    msg = ""
+
     if not events:
         print('No upcoming events found.')
     for event in events:
@@ -51,7 +54,21 @@ def main():
         end = event['end'].get('dateTime', event['end'].get('date'))
         end = end.split("-")[2]
         end = end.split("T")[1][:-3]
+        msg = start + "-" + end + " " + event['summary']
         print(start, "-", end, event['summary'])
+
+    # Your Account SID from twilio.com/console
+    account_sid = "AC47c7c5ce4a93ced348bee6e3d7b639bd"
+    # Your Auth Token from twilio.com/console
+    auth_token  = "831c29d344d9b6cb854885c625700371"
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        to="+17122928691", 
+        from_="+17122922649",
+        body=msg)
+    
+    print(message.sid)
 
 if __name__ == '__main__':
     main()
