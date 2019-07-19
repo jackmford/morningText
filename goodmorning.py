@@ -68,13 +68,13 @@ def get_events():
             #print(start, "-", end, event['summary'])
 
     # Your Account SID from twilio.com/console
-    account_sid = "AC47c7c5ce4a93ced348bee6e3d7b639bd"
+    account_sid = ""
     # Your Auth Token from twilio.com/console
-    auth_token  = "831c29d344d9b6cb854885c625700371"
+    auth_token  = ""
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
-        to="+17122928691", 
+        to="+", 
         from_="+17122922649",
         body=msg)
     
